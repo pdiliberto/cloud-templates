@@ -9,7 +9,7 @@ In the deployment phase Internet access is required to:
 * download BIG-IP Cloud Libs, AS3 and CFE
 * BYOL license activation: instances needs connectivity to F5 License Server.
 
-This template allows to use an Internet proxy (that should be already configured and reachable by the VPCs) during the deployment phase, so the instances could download required files and activate themselves even without direct Internet connection.
+This template allows to use an Internet proxy (that should be already configured and reachable while the instance are creating) during the deployment phase, so the instances could download required files and activate themselves even without direct Internet connection.
 
 After the deployment, Active/Standby deployments via API, use CFE (Cloud Failover Extension) to handle correct failover, and it needs to access Storage APIs for shared-state persistence, and to Compute APIs to updates to network resources. These resources are public by default.
 
