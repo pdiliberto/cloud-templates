@@ -22,7 +22,7 @@ Please have a look to Matthew Emes' article on DevCentral to configure Google Pr
 
 ## Deploy the template
 
-This template has exactly the requirements and paramater of the original template, so you would like to have a look to https://github.com/F5Networks/f5-google-gdm-templates/tree/main/supported/failover/same-net/via-api/2nic/existing-stack/byol#deploying-the-template
+This template has exactly the requirements and paramaters of the original template, so you would like to have a look to https://github.com/F5Networks/f5-google-gdm-templates/tree/main/supported/failover/same-net/via-api/2nic/existing-stack/byol#deploying-the-template
 
 ## Specific Parameters on the YAML file
 
