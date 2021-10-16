@@ -37,7 +37,9 @@ proxyProtocol | No | Enter the proxy protocol: http or https.
 
 
 
+## Known Issues
 
+* No proxy authentication supported
 
 
 
