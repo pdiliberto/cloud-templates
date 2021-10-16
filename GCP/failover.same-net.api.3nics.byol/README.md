@@ -16,7 +16,7 @@ If you don't need license activation, (e.g. you are using PAYG), please have a l
 In any case (BYOL or PAYG), after the deployment, CFE (Cloud Failover Extension) will need access to Storage APIs for shared-state persistence, and to Compute APIs to updates to network resources. These resources are public by default.
 If the BIG-IP is deployed without functioning routes to the internet, CFE cannot function as expected.
 
-Please have a look to Matthew Emes' article on DevCentral to configure Google Private Access that solve this issue: https://devcentral.f5.com/s/articles/Installing-and-running-iControl-extensions-in-isolated-GCP-VPCs
+Please have a look to Matthew Emes' article on DevCentral to configure Google Private Access to make CFE working in isolated environments: https://devcentral.f5.com/s/articles/Installing-and-running-iControl-extensions-in-isolated-GCP-VPCs
 
 
 
