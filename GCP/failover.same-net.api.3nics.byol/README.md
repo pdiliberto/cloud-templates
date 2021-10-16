@@ -1,7 +1,7 @@
 # Deploying the BIG-IP VE in Google Cloud - HA Cluster (Active/Standby): Existing Stack with BYOL Licensing with a Proxy
 
 
-I modified the original supported template by F5 (https://github.com/F5Networks/f5-google-gdm-templates/tree/main/supported/failover/same-net/via-api/2nic/existing-stack/byol), to solve deployment issues in isolated VPC, where an Internet Proxy is available.
+I modified the original supported template by F5 (https://github.com/F5Networks/f5-google-gdm-templates/tree/main/supported/failover/same-net/via-api/3nic/existing-stack/byol), to solve deployment issues in isolated VPC, where an Internet Proxy is available.
 
 Those VPCs doesn't have a route to Internet, that is required in a Cloud deployment for many reasons.
 
@@ -22,7 +22,7 @@ Please have a look to Matthew Emes' article on DevCentral to configure Google Pr
 
 ## Deploy the template
 
-This template has exactly the requirements and paramater of the original template, so you would like to have a look to https://github.com/F5Networks/f5-google-gdm-templates/tree/main/supported/failover/same-net/via-api/2nic/existing-stack/byol#deploying-the-template
+This template has exactly the requirements and paramater of the original template, so you would like to have a look to https://github.com/F5Networks/f5-google-gdm-templates/tree/main/supported/failover/same-net/via-api/3nic/existing-stack/byol#deploying-the-template
 
 ## Specific Parameters on the YAML file
 
