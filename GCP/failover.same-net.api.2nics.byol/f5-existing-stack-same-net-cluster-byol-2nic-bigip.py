@@ -1,7 +1,7 @@
 # Copyright 2021 F5 Networks All rights reserved.
 #
 # Version 3.14.0
-# THIS IS NOT THE SUPPORTED TEMPLATE by F5. It was edited by Paolo Di Liberto to support a proxy during deployments where VPC are isolated.
+# THIS IS NOT THE ORIGINAL TEMPLATE SUPPORTED by F5. It was edited by Paolo Di Liberto to support a proxy during deployments where VPC are isolated.
 # Proxy authentication is not supported on this version
 #
 """Creates BIG-IP"""
