@@ -26,7 +26,7 @@ This template has exactly the requirements and paramaters of the original templa
 
 ## Specific Parameters on the YAML file
 
-This template has specifi parameters for Internet proxy:
+This template has specific parameters for Internet proxy:
 
 
 Parameter | Required | Description
