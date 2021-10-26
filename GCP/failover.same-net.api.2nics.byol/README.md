@@ -37,7 +37,8 @@ proxyProtocol | No | Enter the proxy protocol: http or https.
 
 
 ## Tested BIG-IP Versions
-* 15.1.4
+* 15.1.4 (imageName f5-bigip-15-1-4-0-0-47-byol-all-modules-2boot-loc-210819151841)
+* 16.1.0 (imageName f5-bigip-16-1-0-0-0-19-byol-all-modules-2boot-loc-210623021328)
 
 ## Known Issues
 
