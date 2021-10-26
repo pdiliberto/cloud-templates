@@ -1,4 +1,4 @@
-# Deploying the BIG-IP VE in Google Cloud - HA Cluster (Active/Standby): Existing Stack with BYOL Licensing with a Proxy
+# Deploying the BIG-IP VE in Google Cloud - HA Cluster (Active/Standby): Existing Stack with BYOL Licensing in isolated VPC with a Proxy
 
 
 I modified the original supported template by F5 (https://github.com/F5Networks/f5-google-gdm-templates/tree/main/supported/failover/same-net/via-api/3nic/existing-stack/byol), to solve deployment issues in isolated VPC, where an Internet Proxy is available.
