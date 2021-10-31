@@ -742,6 +742,7 @@ def GenerateConfig(context):
     'properties': {
       'project': context.env['project'],
       'name': storageName,
+      'location': context.properties['region'],
       'labels': {
         'f5_cloud_failover_label': context.env['deployment']
       },
