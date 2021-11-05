@@ -23,31 +23,33 @@ resources:
   type: f5-existing-stack-same-net-cluster-byol-2nic-bigip.py
   properties:
    ### (REQUIRED) Enter the Google Region in which you want to deploy BIG-IP, for example 'us-west1'.
-   region:
+   region: 
    ### (REQUIRED) Enter the availability zone where you want to deploy the BIG-IP VE instance, for example 'us-west1-a'.
-   availabilityZone1:
+   availabilityZone1: 
    ### (REQUIRED) Enter the availability zone where you want to deploy the BIG-IP VE instance, for example 'us-west1-b'.
-   availabilityZone2:
+   availabilityZone2: 
+   ### (REQUIRED) Enter the instance name ('1' nd '2' will be added after the instancename to the 2 instances). Defaults to big-ip. Should not be an FQDN. 
+   instanceName: big-ip
    ### (REQUIRED) Specify the name of the network to use for management traffic, for example 'my-management-network'.
-   mgmtNetwork:
+   mgmtNetwork: 
    ### (REQUIRED) Specify the name of the subnet to use for management traffic, for example 'my-management-subnetwork'.
-   mgmtSubnet:
+   mgmtSubnet: 
    ### (REQUIRED) This field restricts management access to specific networks or addresses. Enter an IP address or address range in CIDR notation separated by a space.  **IMPORTANT** This solution requires your Management's subnet at a minimum in order for the peers to cluster.  For example, '10.0.11.0/24 55.55.55.55/32' where 10.0.11.0/24 is your local management subnet and 55.55.55.55/32 is a specific address (ex. orchestration host/desktop/etc.).
-   restrictedSrcAddress:
+   restrictedSrcAddress: 
    ### (REQUIRED) Specify the Network name for BIG-IP application traffic, for example 'my-application-network'.
-   network1:
+   network1: 
    ### (OPTIONAL) If using a shared VPC, specify the name of the host project to use for management traffic. Leave default value of None when not using shared VPC. **Note** template does not create firewall policy for shared VPC. Create policy on shared VPC within in host project to allow appropriate traffic.
    network1SharedVpc: None
    ### (REQUIRED) Specify the subnet of the Network that the BIG-IP should use for application traffic, for example 'my-application-subnetwork'.
-   subnet1:
+   subnet1: 
    ### (OPTIONAL) Enter None if alias IP failover is not required. Enter the alias IP address(es) to be used for application traffic, including CIDR suffix. This address must belong to the subnet noted above in key 'subnet1'. A list of alias IPs can be provided, separated by a space. For example, 'IE 10.x.x.16/28 10.x.x.32/28'.
    aliasIp: None
    ### (OPTIONAL) Enter the number of forwarding rules to create, for example '1'.  All integers from 1 to the max quota for the forwarding rules resource type are allowed.
    numberOfForwardingRules: 1
    ### (REQUIRED) Enter the BIG-IP license key, for example 'CTASW-GVZHE-FYVIM-XMOUP-SJSTBXX'.
-   licenseKey1:
+   licenseKey1: 
    ### (REQUIRED) Enter the second BIG-IP license key.
-   licenseKey2:
+   licenseKey2: 
    ## (OPTIONAL) Enter the Internet Proxy IP or hostname.
    proxyAddr: None
    ## (OPTIONAL) Enter the Internet Proxy Port.
@@ -75,7 +77,7 @@ resources:
    ## (OPTIONAL) Enter a comma-separated list of modules and provisioning level, for example 'ltm:nominal' or 'ltm:nominal,asm:nominal'.
    bigIpModules: ltm:nominal
    ### (REQUIRED) Enter the Google service account to use for failover API calls, for example 'username@projectname.iam.serviceaccount.com'.
-   serviceAccount:
+   serviceAccount:  
    ### (OPTIONAL) Enter the Google service account to use for autoscale API calls, for example 'username@projectname.iam.serviceaccount.com'. Please note that this service account is necessary for one BIG-IP to communicate with the other, so the permissions should include access to the storage bucket. Refer [here](https://clouddocs.f5.com/products/extensions/f5-cloud-failover/latest/userguide/gcp.html#create-and-assign-an-iam-role) for instructions on how to create the IAM service account with sufficient access.
    allowUsageAnalytics: yes
    ### (OPTIONAL) This deployment can provide F5 with high-level device use information to optimize development resources. If you select **no** the information is not sent.
