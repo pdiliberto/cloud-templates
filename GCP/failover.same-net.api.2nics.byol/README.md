@@ -38,6 +38,13 @@ proxyPort | No | Enter the Internet Proxy Port, for example 3128.
 proxyProtocol | No | Enter the proxy protocol: http or https.
 
 
+An instance name for big-ip should be specified. If you want to use standard naming please use version 1.1 of this template
+
+Parameter | Required | Description
+--- | --- | ---
+instanceName | Yes | Enter the BIG-IP instance name. It must not be a FQDN (project name will be added to hostname).
+
+
 ## Tested BIG-IP Versions
 * 15.1.4 (imageName f5-bigip-15-1-4-0-0-47-byol-all-modules-2boot-loc-210819151841)
 * 16.1.0 (imageName f5-bigip-16-1-0-0-0-19-byol-all-modules-2boot-loc-210623021328)
