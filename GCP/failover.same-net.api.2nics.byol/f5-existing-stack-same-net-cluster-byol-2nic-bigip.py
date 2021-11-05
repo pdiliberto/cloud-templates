@@ -1,9 +1,7 @@
 # Copyright 2021 F5 Networks All rights reserved.
 #
 # Version 3.14.0
-# THIS IS NOT THE ORIGINAL TEMPLATE SUPPORTED by F5. It was edited by Paolo Di Liberto to support a proxy during deployments where VPC are isolated.
-# Proxy authentication is not supported on this version
-#
+
 """Creates BIG-IP"""
 COMPUTE_URL_BASE = 'https://www.googleapis.com/compute/v1/'
 
@@ -184,7 +182,7 @@ def Metadata(context,group, storageName, licenseType):
                         "--join-group",
                         "--device-group failover_group",
                         "--remote-host ",
-                        "$(ref.bigip1-" + context.env['deployment'] + ".networkInterfaces[1].networkIP)",
+                        "$(ref." + context.properties['instanceName'] + "1.networkInterfaces[1].networkIP)",
                         "--no-reboot",
                         "2>&1 >> /var/log/cloud/google/install.log < /dev/null &"
              ])
@@ -227,7 +225,7 @@ def Metadata(context,group, storageName, licenseType):
                         '        "defaultNextHopAddresses": {',
                         '            "discoveryType": "static",',
                         '            "items": [',
-                        '            "$(ref.bigip1-' + context.env['deployment'] + '.networkInterfaces[0].networkIP)",',
+                        '            "$(ref.' + context.properties['instanceName'] + '1.networkInterfaces[0].networkIP)",',
                         '            "${bigip2_host}"',
                         '            ]',
                         '        }',
@@ -595,6 +593,9 @@ def Instance(context, group, storageName, licenseType, device, avZone, network1S
   if group == 'join' and str(context.properties['aliasIp']).lower() != 'none':
     aliasIps = [{'ipCidrRange': ip} for ip in context.properties['aliasIp'].split(';')]
 
+  
+  hostName = ''.join([context.properties['instanceName'], device, '.c.', context.env['project'], '.internal'])
+  
   # Build instance template
   instance = {
         'zone': avZone,
@@ -602,7 +603,7 @@ def Instance(context, group, storageName, licenseType, device, avZone, network1S
         'tags': {
           'items': tagItems
         },
-        'hostname': ''.join(['bigip', device, '-', context.env['deployment'], '.c.', context.env['project'], '.internal']),
+        'hostname': hostName,
         'labels': {
           'f5_deployment': context.env['deployment'],
           'f5_cloud_failover_label': context.env['deployment']
@@ -664,7 +665,7 @@ def ForwardingRule(context, name, target):
   }
   return forwardingRule
 
-def Outputs(context):
+def Outputs(context, instanceName0, instanceName1):
     output_ip_options = {
         'public': '.accessConfigs[0].natIP',
         'private': '.networkIP'
@@ -677,11 +678,11 @@ def Outputs(context):
     },
     {
         'name': 'mgmtURL1',
-        'value': 'https://$(ref.bigip1-' + context.env['deployment'] + '.networkInterfaces[1]' + output_ip_options[pub_or_priv] + '):' + str(context.properties['mgmtGuiPort'])
+        'value': 'https://$(ref.' + instanceName0 + '.networkInterfaces[1]' + output_ip_options[pub_or_priv] + '):' + str(context.properties['mgmtGuiPort'])
     },
     {
         'name': 'mgmtURL2',
-        'value': 'https://$(ref.bigip2-' + context.env['deployment'] + '.networkInterfaces[1]' + output_ip_options[pub_or_priv] + '):' + str(context.properties['mgmtGuiPort'])
+        'value': 'https://$(ref.' + instanceName1 + '.networkInterfaces[1]' + output_ip_options[pub_or_priv] + '):' + str(context.properties['mgmtGuiPort'])
     }]
     return outputs
 
@@ -700,8 +701,8 @@ def GenerateConfig(context):
   if str(context.properties['network1SharedVpc']).lower() != 'none':
       network1SharedVpc = context.properties['network1SharedVpc']
   storageName = 'f5-bigip-storage-' + context.env['deployment']
-  instanceName0 = 'bigip1-' + context.env['deployment']
-  instanceName1 = 'bigip2-' + context.env['deployment']
+  instanceName0 = context.properties['instanceName'] + '1'
+  instanceName1 = context.properties['instanceName'] + '2'
   fwdRulesNamePrefix = context.env['deployment'] + '-fr'
   forwardingRules = []
   forwardingRuleOutputs = []
@@ -772,6 +773,6 @@ def GenerateConfig(context):
       }]
   # add forwarding rules
   resources = resources + forwardingRules
-  outputs = Outputs(context)
+  outputs = Outputs(context, instanceName0,instanceName1)
   outputs = outputs + forwardingRuleOutputs
   return {'resources': resources, 'outputs': outputs}
