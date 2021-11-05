@@ -34,6 +34,10 @@ properties:
   availabilityZone2:
     description: Enter the availability zone where you want to deploy the second BIG-IP VE instance, for example 'us-west1-b'.
     type: string
+  instanceName:
+    descritpion: Enter the instance name ('1' nd '2' will be added after the instancename to the 2 instances). Defaults to 'big-ip'. Should not be a FQDN.
+    type: string
+    default: big-ip
   mgmtNetwork:
     description: Specify the name of the network to use for management traffic, for example 'my-management-network'.
     type: string
