@@ -3,7 +3,7 @@
 info:
   title: F5 BIG-IP 2NIC HA with Google API
   author: F5 Networks
-  description: Creates HA pair of BIG-IP's with 3 network interfaces and supporting Google resources.
+  description: Creates HA pair of BIG-IP's with 2 network interfaces and supporting Google resources.
   version: 3.14.0
 imports:
   - path: f5-existing-stack-same-net-cluster-byol-2nic-bigip.py
@@ -11,7 +11,6 @@ required:
   - region
   - availabilityZone1
   - availabilityZone2
-  - instanceName
   - allowUsageAnalytics
   - mgmtNetwork
   - mgmtSubnet
@@ -35,10 +34,13 @@ properties:
   availabilityZone2:
     description: Enter the availability zone where you want to deploy the second BIG-IP VE instance, for example 'us-west1-b'.
     type: string
-  instanceName:
-    descritpion: Enter the instance name ('1' nd '2' will be added after the instancename to the 2 instances). Defaults to 'big-ip'. Should not be a FQDN.
+  instanceName1:
+    description: Speficy the name of the first instance. leave to 'default' if you don't want to use custom instance names. Should not be a FQDN.
     type: string
-    default: big-ip
+    default: default
+  instanceName2:
+    description: Specify the name of the second instance. it matters only if you specified a custom name as instanceName1.
+    type: string
   mgmtNetwork:
     description: Specify the name of the network to use for management traffic, for example 'my-management-network'.
     type: string
