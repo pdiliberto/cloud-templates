@@ -1,9 +1,6 @@
 # Copyright 2021 F5 Networks All rights reserved.
 #
-# Version 1.2
-# THIS IS NOT THE ORIGINAL TEMPLATE SUPPORTED by F5. It was edited by Paolo Di Liberto to support a proxy during deployments where VPC are isolated.
-# Proxy authentication is not supported on this version
-#
+# Version 3.14.0
 
 """Creates BIG-IP"""
 COMPUTE_URL_BASE = 'https://www.googleapis.com/compute/v1/'
@@ -31,7 +28,7 @@ def FirewallRuleMgmt(context):
     return firewallRuleMgmt
 
 
-def Metadata(context,group, storageName, licenseType):
+def Metadata(context,group, storageName, licenseType, instanceName0):
 
   # SETUP VARIABLES
   ## Template Analytics
@@ -185,7 +182,7 @@ def Metadata(context,group, storageName, licenseType):
                         "--join-group",
                         "--device-group failover_group",
                         "--remote-host ",
-                        "$(ref." + context.properties['instanceName'] + "1.networkInterfaces[1].networkIP)",
+                        "$(ref." + instanceName0 + ".networkInterfaces[1].networkIP)",
                         "--no-reboot",
                         "2>&1 >> /var/log/cloud/google/install.log < /dev/null &"
              ])
@@ -228,7 +225,7 @@ def Metadata(context,group, storageName, licenseType):
                         '        "defaultNextHopAddresses": {',
                         '            "discoveryType": "static",',
                         '            "items": [',
-                        '            "$(ref.' + context.properties['instanceName'] + '1.networkInterfaces[0].networkIP)",',
+                        '            "$(ref.' + instanceName0 + '.networkInterfaces[0].networkIP)",',
                         '            "${bigip2_host}"',
                         '            ]',
                         '        }',
@@ -573,7 +570,7 @@ def Metadata(context,group, storageName, licenseType):
     }
   return metadata
 
-def Instance(context, group, storageName, licenseType, device, avZone, network1SharedVpc):
+def Instance(context, group, storageName, licenseType, device, avZone, network1SharedVpc, instanceName, instanceName0):
   aliasIps = []
   accessConfigSubnet = []
   accessConfigMgmt = []
@@ -596,9 +593,6 @@ def Instance(context, group, storageName, licenseType, device, avZone, network1S
   if group == 'join' and str(context.properties['aliasIp']).lower() != 'none':
     aliasIps = [{'ipCidrRange': ip} for ip in context.properties['aliasIp'].split(';')]
 
-  
-  hostName = ''.join([context.properties['instanceName'], device, '.c.', context.env['project'], '.internal'])
-  
   # Build instance template
   instance = {
         'zone': avZone,
@@ -606,7 +600,7 @@ def Instance(context, group, storageName, licenseType, device, avZone, network1S
         'tags': {
           'items': tagItems
         },
-        'hostname': hostName,
+        'hostname': ''.join([instanceName, '.c.', context.env['project'], '.internal']),
         'labels': {
           'f5_deployment': context.env['deployment'],
           'f5_cloud_failover_label': context.env['deployment']
@@ -651,7 +645,7 @@ def Instance(context, group, storageName, licenseType, device, avZone, network1S
                             context.properties['mgmtSubnet']]),
             'accessConfigs': accessConfigMgmt
           }],
-          'metadata': Metadata(context, group, storageName, licenseType)
+          'metadata': Metadata(context, group, storageName, licenseType, instanceName0)
     }
   return instance
 def ForwardingRule(context, name, target):
@@ -704,8 +698,13 @@ def GenerateConfig(context):
   if str(context.properties['network1SharedVpc']).lower() != 'none':
       network1SharedVpc = context.properties['network1SharedVpc']
   storageName = 'f5-bigip-storage-' + context.env['deployment']
-  instanceName0 = context.properties['instanceName'] + '1'
-  instanceName1 = context.properties['instanceName'] + '2'
+  if str(context.properties['instanceName1']).lower() != 'default':
+      instanceName0 = context.properties['instanceName1'].lower()
+      instanceName1 = context.properties['instanceName2'].lower()
+  else:
+      instanceName0 = 'bigip1-' + context.env['deployment']
+      instanceName1 = 'bigip2-' + context.env['deployment']
+  
   fwdRulesNamePrefix = context.env['deployment'] + '-fr'
   forwardingRules = []
   forwardingRuleOutputs = []
@@ -718,11 +717,11 @@ def GenerateConfig(context):
   {
     'name': instanceName0,
     'type': 'compute.v1.instance',
-    'properties': Instance(context, 'create', storageName, 'byol', '1', context.properties['availabilityZone1'], network1SharedVpc)
+    'properties': Instance(context, 'create', storageName, 'byol', '1', context.properties['availabilityZone1'], network1SharedVpc, instanceName0, instanceName0)
   },{
     'name': instanceName1,
     'type': 'compute.v1.instance',
-    'properties': Instance(context, 'join', storageName, 'byol', '2', context.properties['availabilityZone2'], network1SharedVpc)
+    'properties': Instance(context, 'join', storageName, 'byol', '2', context.properties['availabilityZone2'], network1SharedVpc, instanceName1, instanceName0)
   },{
     'name': storageName,
     'type': 'storage.v1.bucket',
@@ -776,6 +775,6 @@ def GenerateConfig(context):
       }]
   # add forwarding rules
   resources = resources + forwardingRules
-  outputs = Outputs(context, instanceName0,instanceName1)
+  outputs = Outputs(context, instanceName0, instanceName1)
   outputs = outputs + forwardingRuleOutputs
   return {'resources': resources, 'outputs': outputs}
