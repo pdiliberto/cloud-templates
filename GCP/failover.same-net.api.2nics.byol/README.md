@@ -39,7 +39,12 @@ proxyProtocol | No | Enter the proxy protocol: http or https.
 
 
 An instance name for each big-ip instance can be specified in this version. If you want to use standard naming please use version 1.1 of this template, or leave "default" as instanceName1.
-If you specify a custom instance name for instanceName1 and you leave 'default' for instanceName2, the template will add '1' and '2' to instanceName1 respectively to give a name to both instances. If you have very specific requirements for naming, you can use custom names for both instances, and the template will assign your custom names to both instances. Please be aware of the GCP constraints for instance names:
+
+If you specify a custom instance name for instanceName1 and you leave 'default' for instanceName2, the template will add '1' and '2' to instanceName1 respectively to give a name to both instances. 
+
+If you have very specific requirements for naming, you can use custom names for both instances, and the template will assign your custom names to both instances. 
+
+Please be aware of the GCP constraints for instance names:
    * Name must consist of lowercase letters (a-z), numbers, and hyphens
    * Name must start with a lowercase letter
     
