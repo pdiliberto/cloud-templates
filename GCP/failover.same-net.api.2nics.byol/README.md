@@ -38,11 +38,12 @@ proxyPort | No | Enter the Internet Proxy Port, for example 3128.
 proxyProtocol | No | Enter the proxy protocol: http or https.
 
 
-An instance name for big-ip should be specified. If you want to use standard naming please use version 1.1 of this template
+An instance name for each big-ip instance can be specified. If you want to use standard naming please use version 1.1 of this template, or leave "default" as instanceName1.
 
 Parameter | Required | Description
 --- | --- | ---
-instanceName | Yes | Enter the BIG-IP instance name. It must not be a FQDN (project name will be added to hostname).
+instanceName1 | No | Enter the BIG-IP 1 instance name. It must not be a FQDN (project name will be added to hostname).
+instanceName2 | No | Enter the BIG-IP 2 instance name. It must not be a FQDN (project name will be added to hostname).
 
 
 ## Tested BIG-IP Versions
