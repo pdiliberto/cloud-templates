@@ -1,6 +1,6 @@
 # Copyright 2021 F5 Networks All rights reserved.
 #
-# Version 3.14.0
+# Based on Version 3.14.0
 # THIS IS NOT THE ORIGINAL TEMPLATE SUPPORTED by F5. It was edited by Paolo Di Liberto to support a proxy during deployments where VPC are isolated.
 # Proxy authentication is not supported on this version
 #
@@ -28,8 +28,10 @@ resources:
    availabilityZone1: 
    ### (REQUIRED) Enter the availability zone where you want to deploy the BIG-IP VE instance, for example 'us-west1-b'.
    availabilityZone2: 
-   ### (REQUIRED) Enter the instance name ('1' nd '2' will be added after the instancename to the 2 instances). Defaults to big-ip. Should not be an FQDN. 
-   instanceName: big-ip
+   ### (OPTIONAL) Speficy the name of the first instance. leave to 'default' if you don't want to use custom instance names. It must not be an FQDN.
+   instanceName1: default
+   ### (OPTIONAL) Specify the name of the second instance. it matters only if you specified a custom name as instanceName1. It must not be an FQDN.
+   instanceName2: default
    ### (REQUIRED) Specify the name of the network to use for management traffic, for example 'my-management-network'.
    mgmtNetwork: 
    ### (REQUIRED) Specify the name of the subnet to use for management traffic, for example 'my-management-subnetwork'.
@@ -65,7 +67,7 @@ resources:
 #f5-bigip-16-1-0-0-0-19-byol-all-modules-2boot-loc-210623021328
 #f5-bigip-16-1-0-0-0-19-byol-ltm-1boot-loc-210623020758
 #f5-bigip-16-1-0-0-0-19-byol-ltm-2boot-loc-210623020944
-   imageName: f5-bigip-16-1-0-0-0-19-byol-all-modules-2boot-loc-210623021328
+   imageName: f5-bigip-15-1-4-0-0-47-byol-all-modules-2boot-loc-210819151841
    ### (OPTIONAL) Instance type assigned to BIG-IP, for example 'n1-standard-4'.
    instanceType: n1-standard-4
    ### (OPTIONAL) Enter the BIG-IP Management Port, the default is '443'.
