@@ -1,6 +1,6 @@
 # Copyright 2021 F5 Networks All rights reserved.
 #
-# Based on Version 3.14.0
+# Version 3.14.0
 # THIS IS NOT THE ORIGINAL TEMPLATE SUPPORTED by F5. It was edited by Paolo Di Liberto to support a proxy during deployments where VPC are isolated.
 # Proxy authentication is not supported on this version
 #
@@ -28,9 +28,15 @@ resources:
    availabilityZone1: 
    ### (REQUIRED) Enter the availability zone where you want to deploy the BIG-IP VE instance, for example 'us-west1-b'.
    availabilityZone2: 
-   ### (OPTIONAL) Speficy the name of the first instance. leave to 'default' if you don't want to use custom instance names. It must not be an FQDN.
+   ### (OPTIONAL) Speficy the name of the first instance. leave to 'default' if you don't want to use custom instance names (F5 standard template instance naming will apply)
    instanceName1: default
-   ### (OPTIONAL) Specify the name of the second instance. it matters only if you specified a custom name as instanceName1. It must not be an FQDN.
+   ### (OPTIONAL) Specify the name of the second instance.
+   ### If you specify a custom instance name for instanceName1 and you leave 'default' for instanceName2, the template will add '1' and '2' to instanceName1 respectively to
+   ### give a name to the two instances. If you have very specific requirements for naming, you can use custom names for both instances, and the template will assign your
+   ### custom names to both templates. Please be aware of the GCP constraints:
+   ### - Name must consist of lowercase letters (a-z), numbers, and hyphens
+   ### - Name must start with a lowercase letter
+   ### 
    instanceName2: default
    ### (REQUIRED) Specify the name of the network to use for management traffic, for example 'my-management-network'.
    mgmtNetwork: 
@@ -52,7 +58,7 @@ resources:
    licenseKey1: 
    ### (REQUIRED) Enter the second BIG-IP license key.
    licenseKey2: 
-   ## (OPTIONAL) Enter the Internet Proxy IP or hostname.
+   ## (OPTIONAL) Enter the Internet Proxy IP or hostname. Enter None if you don't need a Proxy for this deployment
    proxyAddr: None
    ## (OPTIONAL) Enter the Internet Proxy Port.
    proxyPort: 3128
@@ -79,7 +85,7 @@ resources:
    ## (OPTIONAL) Enter a comma-separated list of modules and provisioning level, for example 'ltm:nominal' or 'ltm:nominal,asm:nominal'.
    bigIpModules: ltm:nominal
    ### (REQUIRED) Enter the Google service account to use for failover API calls, for example 'username@projectname.iam.serviceaccount.com'.
-   serviceAccount:  
+   serviceAccount: 
    ### (OPTIONAL) Enter the Google service account to use for autoscale API calls, for example 'username@projectname.iam.serviceaccount.com'. Please note that this service account is necessary for one BIG-IP to communicate with the other, so the permissions should include access to the storage bucket. Refer [here](https://clouddocs.f5.com/products/extensions/f5-cloud-failover/latest/userguide/gcp.html#create-and-assign-an-iam-role) for instructions on how to create the IAM service account with sufficient access.
    allowUsageAnalytics: yes
    ### (OPTIONAL) This deployment can provide F5 with high-level device use information to optimize development resources. If you select **no** the information is not sent.

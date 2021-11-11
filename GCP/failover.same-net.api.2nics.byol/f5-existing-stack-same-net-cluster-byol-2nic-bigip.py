@@ -699,8 +699,12 @@ def GenerateConfig(context):
       network1SharedVpc = context.properties['network1SharedVpc']
   storageName = 'f5-bigip-storage-' + context.env['deployment']
   if str(context.properties['instanceName1']).lower() != 'default':
-      instanceName0 = context.properties['instanceName1'].lower()
-      instanceName1 = context.properties['instanceName2'].lower()
+      if str(context.properties['instanceName2']).lower() != 'default': 
+            instanceName0 = context.properties['instanceName1'].lower()
+            instanceName1 = context.properties['instanceName2'].lower()
+      else:
+          instanceName0 = context.properties['instanceName1'].lower() + '1'
+          instanceName1 = context.properties['instanceName1'].lower() + '2'
   else:
       instanceName0 = 'bigip1-' + context.env['deployment']
       instanceName1 = 'bigip2-' + context.env['deployment']
