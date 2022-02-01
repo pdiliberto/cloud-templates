@@ -8,7 +8,7 @@ Those VPCs doesn't have a route to Internet, that is required in a Cloud deploym
 Use this template if you need to build an A/P BIG-IP cluster in GCP from the marketplace (PAYG).
 In this kind of deployment, Internet access is required to download BIG-IP Cloud Libs, AS3 and CFE.
 
-This template allows to use an Internet proxy (that should be already configured and reachable while the instance are creating) during the deployment phase, so the instances could download required files and activate themselves even without direct Internet connection.
+This template allows to use an Internet proxy (that should be already configured and reachable while the instances are creating) during the deployment phase, so the instances could download required files and activate themselves even without direct Internet connection.
 
 You may also consider to us Gert Wolfis' solution to download required files from a GCP Bucket, so Internet access won't be needed anymore: https://github.com/gwolfis/cloud-solution-templates/tree/master/GCP/bigip-isolated-gdm-usecase
 
